@@ -133,6 +133,7 @@ public class MonsterCard : MonoBehaviour
 
         enemyCard.TakeDamage(currentAttack, _statusEffectApplies);
         canAttack = false;
+        _cardAction = CardAction.Neutral;
         playerManager.CardDoneAttacking();
         
     }
@@ -162,6 +163,15 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
+
+    public void UppdateMutationCards()
+    {
+        for (int i = 0; i < MutationCards.Count; i++)
+        {
+            MutationCard mutationCard = MutationCards[i].GetComponent<MutationCard>();
+
+        }
+    }
     private void UppdateCardFacing()
     {
         staticShowCardBack = showCardBack;

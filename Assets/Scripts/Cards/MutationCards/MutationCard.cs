@@ -69,11 +69,7 @@ public class MutationCard : MonoBehaviour
         MonsterCard monster = card.GetComponent<MonsterCard>();
         if (playerManager.MonsterCardInSameHand(card) && monster.currentMutationSpace > 0)
         {
-            if (playerManager._playerTurnState == PlayerTurnState.Player1 && player1.mutationPoints > cardCost)
-            {
-                PlaceOn(card);
-            }
-            if (playerManager._playerTurnState == PlayerTurnState.Player2 && player2.mutationPoints > cardCost)
+            if (playerManager.GetCurrentPlayerMutationPoints() >= cardCost)
             {
                 PlaceOn(card);
             }
@@ -85,5 +81,14 @@ public class MutationCard : MonoBehaviour
         MonsterCard monsterCard = card.GetComponent<MonsterCard>();
         Debug.Log("Tried placing on " + card.name + " in " + monsterCard._cardPosition);
 
+        int i = databaseMutationCards.MutationCardStore.IndexOf(gameObject);
+        monsterCard.MutationCards.Add(gameObject);
+
+        databaseMutationCards.MutationCardStore.Remove(databaseMutationCards.MutationCardStore[i]);
+        databaseMutationCards.NewCardToStore();
+
+        playerManager.SetCurrentPlayerMutationPoints(playerManager.GetCurrentPlayerMutationPoints() - cardCost);
+        monsterCard.currentMutationSpace--;
+        monsterCard.UppdateMutationCards();
     }
 }

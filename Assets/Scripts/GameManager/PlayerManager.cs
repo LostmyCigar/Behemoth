@@ -141,6 +141,18 @@ public class PlayerManager : MonoBehaviour
         else return 0;
     }
 
+    public void SetCurrentPlayerMutationPoints(int newValue)
+    {
+        if (_playerTurnState == PlayerTurnState.Player1 || _playerTurnState == PlayerTurnState.StartPlayer2)
+        {
+            player1.mutationPoints = newValue;
+        }
+        else if (_playerTurnState == PlayerTurnState.Player2 || _playerTurnState == PlayerTurnState.StartPlayer2)
+        {
+            player2.mutationPoints = newValue;
+        }
+    }
+
     public PlayerAction GetCurrentPlayerAction()
     {
         if (_playerTurnState == PlayerTurnState.Player1 || _playerTurnState == PlayerTurnState.StartPlayer1)

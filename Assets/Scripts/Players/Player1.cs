@@ -158,7 +158,7 @@ public class Player1 : MonoBehaviour
             MonsterCard monsterCard = Player1MonsterCards[i].GetComponent<MonsterCard>();
             monsterCard._cardPosition = CardPosition.inHandPlayer1;
 
-            if (_playerAction == PlayerAction.AttackPhase)
+            if (monsterCard.canAttack)
             {
                 monsterCard._cardAction = CardAction.isAttacking;
             }
