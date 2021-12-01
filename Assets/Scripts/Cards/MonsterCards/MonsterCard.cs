@@ -41,6 +41,11 @@ public class MonsterCard : MonoBehaviour
     public int originalAttack;
     public int currentMutationSpace;
 
+    [Header("Reviving")]
+    public bool willRevive;
+    public int hpAfterRevive;
+    public int attackAfterRevive;
+
     [Header("Card general info")]
     public bool showCardBack;
     public static bool staticShowCardBack;
@@ -66,6 +71,15 @@ public class MonsterCard : MonoBehaviour
     public Text effectText;
     public GameObject cardBack;
 
+    [Header("Card Display Mutationcards")]
+    public GameObject MutationCard1;
+    public GameObject MutationCard2;
+    public GameObject MutationCard3;
+    public Text Mutationcard1NameText;
+    public Text Mutationcard2NameText;
+    public Text Mutationcard3NameText;
+
+    [Header("Retrieve on Start")]
     public GameObject gameManager;
     public PlayerManager playerManager;
     public DatabaseMonsterCards databaseMonsterCards;
@@ -75,6 +89,11 @@ public class MonsterCard : MonoBehaviour
 
     void Start()
     {
+        if (gameObject.tag == "Untagged")
+        {
+            Debug.Log(gameObject.name);
+        }
+
         _cardAction = CardAction.Neutral;
         currentHp = startHp;
         currentAttack = startAttack;
@@ -93,6 +112,10 @@ public class MonsterCard : MonoBehaviour
         player1 = gameManager.GetComponent<Player1>();
         player2 = gameManager.GetComponent<Player2>();
         draggable = gameObject.GetComponent<DraggableAttack>();
+
+        MutationCard1.SetActive(false);
+        MutationCard2.SetActive(false);
+        MutationCard3.SetActive(false);
     }
 
 
@@ -141,8 +164,11 @@ public class MonsterCard : MonoBehaviour
     public void TakeDamage(int damage, StatusEffects statusEffects)
     {
         _statusEffectAffected = statusEffects;
-        Debug.Log("Taking damage " + damage);
         currentHp -= DamageAfterModifiers(damage);
+        if (currentHp <= 0)
+        {
+            Die();
+        }
     }
 
     public int DamageAfterModifiers(int damage)
@@ -161,6 +187,7 @@ public class MonsterCard : MonoBehaviour
         {
             hpText.text = currentHp.ToString();
         }
+
     }
 
 
@@ -169,8 +196,36 @@ public class MonsterCard : MonoBehaviour
         for (int i = 0; i < MutationCards.Count; i++)
         {
             MutationCard mutationCard = MutationCards[i].GetComponent<MutationCard>();
+            mutationCard._cardPosition = MutationCardPosition.onMonsterCard;
+
+            mutationCard.transform.SetParent(transform);
+            mutationCard.Hide();
 
         }
+
+        if (MutationCards.Count >= 1)
+        {
+            MutationCard1.SetActive(true);
+            MutationCard mutation = MutationCards[0].GetComponent<MutationCard>();
+            Mutationcard1NameText.text = mutation.cardName;
+        }
+        else MutationCard1.SetActive(false);
+
+        if (MutationCards.Count >= 2)
+        {
+            MutationCard2.SetActive(true);
+            MutationCard mutation = MutationCards[1].GetComponent<MutationCard>();
+            Mutationcard2NameText.text = mutation.cardName;
+        }
+        else MutationCard2.SetActive(false);
+
+        if (MutationCards.Count >= 3)
+        {
+            MutationCard3.SetActive(true);
+            MutationCard mutation = MutationCards[2].GetComponent<MutationCard>();
+            Mutationcard3NameText.text = mutation.cardName;
+        }
+        else MutationCard3.SetActive(false);
     }
     private void UppdateCardFacing()
     {
@@ -184,7 +239,22 @@ public class MonsterCard : MonoBehaviour
             cardBack.SetActive(false);
         }
     }
-
+    public void Die()
+    {
+        if (willRevive)
+        {
+            Revive();
+        }
+        else
+        {
+            playerManager.AddDeadCard(this);
+        }
+    }
+    public void Revive()
+    {
+        currentHp = hpAfterRevive;
+        currentAttack = attackAfterRevive;
+    }
     public void FaceDown()
     {
         showCardBack = true;

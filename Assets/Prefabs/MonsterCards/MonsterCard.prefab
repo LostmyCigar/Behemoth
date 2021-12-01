@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2467354754110577184}
   m_Layer: 5
   m_Name: MonsterCard
-  m_TagString: Untagged
+  m_TagString: MonsterCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +83,12 @@ MonoBehaviour:
   attackText: {fileID: 7728757763169455264}
   effectText: {fileID: 6396640865300790378}
   cardBack: {fileID: 6396640864612897159}
+  MutationCard1: {fileID: 7986658443558463167}
+  MutationCard2: {fileID: 7827553504968054562}
+  MutationCard3: {fileID: 7299464317404146397}
+  Mutationcard1NameText: {fileID: 26128255611826939}
+  Mutationcard2NameText: {fileID: 7385374848934298714}
+  Mutationcard3NameText: {fileID: 4174638760484029017}
   gameManager: {fileID: 0}
   playerManager: {fileID: 0}
   databaseMonsterCards: {fileID: 0}

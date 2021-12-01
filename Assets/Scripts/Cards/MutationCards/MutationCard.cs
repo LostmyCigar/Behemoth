@@ -15,8 +15,8 @@ public class MutationCard : MonoBehaviour
 {
     [Header("Card Info")]
     public int cardId;
-    [SerializeField] private string cardName;
-    [SerializeField] private string cardDescription;
+    public string cardName;
+    public string cardDescription;
     public int cardCost;
 
     [Header("Card Display")]
@@ -27,7 +27,7 @@ public class MutationCard : MonoBehaviour
     [Header("Where is the card?")]
     public MutationCardPosition _cardPosition;
 
-
+    [Header("Retrieve on Start")]
     public GameObject gameManager;
     public PlayerManager playerManager;
     public DatabaseMutationCards databaseMutationCards;
@@ -67,7 +67,7 @@ public class MutationCard : MonoBehaviour
     public void TryPlacingOn(GameObject card)
     {
         MonsterCard monster = card.GetComponent<MonsterCard>();
-        if (playerManager.MonsterCardInSameHand(card) && monster.currentMutationSpace > 0)
+        if (playerManager.MonsterCardInCurrentPlayerHand(card) && monster.currentMutationSpace > 0)
         {
             if (playerManager.GetCurrentPlayerMutationPoints() >= cardCost)
             {
@@ -90,5 +90,12 @@ public class MutationCard : MonoBehaviour
         playerManager.SetCurrentPlayerMutationPoints(playerManager.GetCurrentPlayerMutationPoints() - cardCost);
         monsterCard.currentMutationSpace--;
         monsterCard.UppdateMutationCards();
+    }
+
+    public void Hide()
+    {
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
     }
 }

@@ -15,6 +15,7 @@ public class Player2 : MonoBehaviour
     public int attacksAvailable;
 
     public int deadCards;
+    public int cardsAttacking;
     public int cardsDoneAttacking;
 
     [Header("State")]
@@ -73,6 +74,12 @@ public class Player2 : MonoBehaviour
             if (cardsDoneAttacking == Player2MonsterCards.Count)
             {
                 StopAttack();
+                cardsAttacking = 0;
+            }
+            if (cardsDoneAttacking != 0 && cardsDoneAttacking == cardsAttacking)
+            {
+                StopAttack();
+                cardsAttacking = 0;
             }
         }
     }
@@ -93,6 +100,7 @@ public class Player2 : MonoBehaviour
             {
                 MonsterCard monsterCard = Player2MonsterCards[j].GetComponent<MonsterCard>();
                 monsterCard.currentAttack++;
+                cardsAttacking++;
                 j++;
                 attacksAvailable--;
                 if (j >= Player2MonsterCards.Count)

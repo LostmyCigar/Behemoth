@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class DraggableBuy : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Transform originalParent;
+    public Vector2 originalPosition;
     MutationCard mutationCard;
     List<RaycastResult> Targeting = new List<RaycastResult>();
 
@@ -15,8 +15,7 @@ public class DraggableBuy : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalParent = gameObject.transform.parent.transform;
-        //gameObject.
+        originalPosition = gameObject.transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -37,6 +36,7 @@ public class DraggableBuy : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 break;
             }
         }
+        gameObject.transform.position = originalPosition;
     }
 
 }

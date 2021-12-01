@@ -73,17 +73,20 @@ public class DatabaseMonsterCards : MonoBehaviour
 
     public void NewCardToStore()
     {
-        if (MonsterCardStore.Count < 3)
+        if (MonsterCardDeck.Count > 0)
         {
-            MonsterCardStore.Add(MonsterCardDeck[0]);
-            MonsterCardDeck.Remove(MonsterCardDeck[0]);
+            if (MonsterCardStore.Count < 3)
+            {
+                MonsterCardStore.Add(MonsterCardDeck[0]);
+                MonsterCardDeck.Remove(MonsterCardDeck[0]);
 
-            monsterCard = MonsterCardStore[2].GetComponent<MonsterCard>();
-            monsterCard._cardPosition = CardPosition.inStore;
-            monsterCard.FaceUp();
-            GameObject thisCard = Instantiate(MonsterCardStore[2], Vector3.zero, Quaternion.identity, GameObject.FindGameObjectWithTag("MonsterCardStore").transform);
-            MonsterCardStore.Remove(MonsterCardStore[2]);
-            MonsterCardStore.Insert(2, thisCard);
+                monsterCard = MonsterCardStore[2].GetComponent<MonsterCard>();
+                monsterCard._cardPosition = CardPosition.inStore;
+                monsterCard.FaceUp();
+                GameObject thisCard = Instantiate(MonsterCardStore[2], Vector3.zero, Quaternion.identity, GameObject.FindGameObjectWithTag("MonsterCardStore").transform);
+                MonsterCardStore.Remove(MonsterCardStore[2]);
+                MonsterCardStore.Insert(2, thisCard);
+            }
         }
     }
 

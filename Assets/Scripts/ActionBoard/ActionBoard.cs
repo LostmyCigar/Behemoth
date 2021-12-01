@@ -13,6 +13,12 @@ public class ActionBoard : MonoBehaviour
     public Text tokensOnAttackText;
     public Text tokensOnMutationText;
     public Text tokensOnRecruitmentText;
+
+    [Header("For ability usage")]
+    public int tokensOnTurnStart;
+    public bool attackCalled;
+    public bool mutationCalled;
+    public bool recruitmentCalled;
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
@@ -29,11 +35,20 @@ public class ActionBoard : MonoBehaviour
         tokensOnAttackText.text = tokensOnAttack.ToString();
         tokensOnMutationText.text = tokensOnMutation.ToString();
         tokensOnRecruitmentText.text = tokensOnRecruitment.ToString();
+
+
+        if (playerManager.GetCurrentPlayerAction() != PlayerAction.ChooseAction)
+        {
+            StartCoroutine(ResetBools());
+        }
     }
+
     public void MutationPointButton()
     {
         if (playerManager.GetCurrentPlayerAction() == PlayerAction.ChooseAction)
         {
+            tokensOnTurnStart = tokensOnMutation;
+            mutationCalled = true;
             playerManager.GivePlayerMutationPoints(tokensOnMutation);
             tokensOnAttack++;
             tokensOnMutation = 1;
@@ -46,6 +61,8 @@ public class ActionBoard : MonoBehaviour
     {
         if (playerManager.GetCurrentPlayerAction() == PlayerAction.ChooseAction)
         {
+            tokensOnTurnStart = tokensOnRecruitment;
+            recruitmentCalled = true; 
             playerManager.GivePlayerRecruitmentPoints(tokensOnRecruitment);
             tokensOnAttack++;
             tokensOnMutation++;
@@ -56,13 +73,26 @@ public class ActionBoard : MonoBehaviour
 
     public void AttackButton()
     {
+
         if (playerManager.GetCurrentPlayerAction() == PlayerAction.ChooseAction)
         {
+            tokensOnTurnStart = tokensOnAttack;
+            attackCalled = true;
             playerManager.GivePlayerAttackPoints(tokensOnAttack);
             tokensOnAttack = 1;
             tokensOnMutation++;
             tokensOnRecruitment++;
             playerManager.SetCurrentPlayerAction(PlayerAction.AttackPhase);
+           
+
         }
+    }
+
+    IEnumerator ResetBools()
+    {
+        yield return new WaitForSeconds(0.1f);
+        attackCalled = false;
+        mutationCalled = false;
+        recruitmentCalled = false;
     }
 }

@@ -887,7 +887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MutationCards:
-  - {fileID: 6791536161316235511, guid: 6ca43726603b47144bb1fc6c61b4000d, type: 3}
+  - {fileID: 1635719935438609452, guid: 4deda8017dc0949439224fcd503c0993, type: 3}
   - {fileID: 6791536161316235511, guid: 6ca43726603b47144bb1fc6c61b4000d, type: 3}
   - {fileID: 6791536161316235511, guid: 6ca43726603b47144bb1fc6c61b4000d, type: 3}
   - {fileID: 6791536161316235511, guid: 6ca43726603b47144bb1fc6c61b4000d, type: 3}
@@ -911,10 +911,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MonsterCards:
-  - {fileID: 4308035989727951506, guid: ed19cf7fc047fd244bb8cee7aaa3f261, type: 3}
+  - {fileID: 3358867518658216445, guid: a782b22b8b7b6394fad9b9ab1537f862, type: 3}
+  - {fileID: 4334934624848192015, guid: ed19cf7fc047fd244bb8cee7aaa3f261, type: 3}
   - {fileID: 3236838384781651363, guid: c0c1e68b03a57ec4fb3e43571813a04f, type: 3}
   - {fileID: 3236838384781651363, guid: c0c1e68b03a57ec4fb3e43571813a04f, type: 3}
-  - {fileID: 3795157970608754560, guid: b31ea027c9fa3ee4a9f082c1688e90cf, type: 3}
   - {fileID: 3236838384781651363, guid: c0c1e68b03a57ec4fb3e43571813a04f, type: 3}
   - {fileID: 3236838384781651363, guid: c0c1e68b03a57ec4fb3e43571813a04f, type: 3}
   - {fileID: 3236838384781651363, guid: c0c1e68b03a57ec4fb3e43571813a04f, type: 3}
@@ -954,6 +954,7 @@ MonoBehaviour:
   maximumCardsOnHand: 3
   attacksAvailable: 0
   deadCards: 0
+  cardsAttacking: 0
   cardsDoneAttacking: 0
   _playerAction: 0
   playerManager: {fileID: 0}
@@ -980,6 +981,7 @@ MonoBehaviour:
   maximumCardsOnHand: 3
   attacksAvailable: 0
   deadCards: 0
+  cardsAttacking: 0
   cardsDoneAttacking: 0
   _playerAction: 0
   playerManager: {fileID: 0}
@@ -2224,7 +2226,7 @@ GameObject:
   - component: {fileID: 1645697805}
   m_Layer: 5
   m_Name: ActionBoard
-  m_TagString: Untagged
+  m_TagString: ActionBoard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2269,6 +2271,10 @@ MonoBehaviour:
   tokensOnAttackText: {fileID: 1153471270}
   tokensOnMutationText: {fileID: 1685777470}
   tokensOnRecruitmentText: {fileID: 263177717}
+  tokensOnTurnStart: 0
+  attackCalled: 0
+  mutationCalled: 0
+  recruitmentCalled: 0
 --- !u!1 &1647738775
 GameObject:
   m_ObjectHideFlags: 0

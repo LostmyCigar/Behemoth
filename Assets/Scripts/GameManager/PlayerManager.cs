@@ -254,16 +254,27 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void AddDeadCard()
+    public void AddDeadCard(MonsterCard deadCard)
     {
-        if (_playerTurnState == PlayerTurnState.Player1 || _playerTurnState == PlayerTurnState.StartPlayer1)
+        if (deadCard._cardPosition == CardPosition.inHandPlayer1)
         {
             player1.deadCards++;
+            player1.Player1MonsterCards.Remove(deadCard.gameObject);
+            if (player1.deadCards <= 4)
+            {
+
+            }
         }
-        else
+        else if (deadCard._cardPosition == CardPosition.inHandPlayer2)
         {
             player2.deadCards++;
+            player2.Player2MonsterCards.Remove(deadCard.gameObject);
+            if (player2.deadCards <= 4)
+            {
+                
+            }
         }
+        Destroy(deadCard.gameObject);
     }
     public bool MonsterCardInOtherHand(GameObject card)
     {
@@ -286,7 +297,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public bool MonsterCardInSameHand(GameObject card)
+    public bool MonsterCardInCurrentPlayerHand(GameObject card)
     {
         MonsterCard monsterCard = card.GetComponent<MonsterCard>();
         if (_playerTurnState == PlayerTurnState.Player1 || _playerTurnState == PlayerTurnState.StartPlayer1)
@@ -326,6 +337,7 @@ public class PlayerManager : MonoBehaviour
             SetCurrentPlayerAction(PlayerAction.BuyPhase);
         }
     }
+
 
 
     private void EndTurnButtonOnState()

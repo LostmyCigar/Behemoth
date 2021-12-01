@@ -71,17 +71,20 @@ public class DatabaseMutationCards : MonoBehaviour
 
     public void NewCardToStore()
     {
-        if (MutationCardStore.Count < 3)
+        if (MutationCardDeck.Count > 0)
         {
-            MutationCardStore.Add(MutationCardDeck[0]);
-            MutationCardDeck.Remove(MutationCardDeck[0]);
+            if (MutationCardStore.Count < 3)
+            {
+                MutationCardStore.Add(MutationCardDeck[0]);
+                MutationCardDeck.Remove(MutationCardDeck[0]);
 
-            mutationCard = MutationCardStore[2].GetComponent<MutationCard>();
-            mutationCard._cardPosition = MutationCardPosition.inStore;
-          //  mutationCard.FaceUp();
-            GameObject thisCard = Instantiate(MutationCardStore[2], Vector3.zero, Quaternion.identity, GameObject.FindGameObjectWithTag("MutationCardStore").transform);
-            MutationCardStore.Remove(MutationCardStore[2]);
-            MutationCardStore.Insert(2, thisCard);
+                mutationCard = MutationCardStore[2].GetComponent<MutationCard>();
+                mutationCard._cardPosition = MutationCardPosition.inStore;
+                //  mutationCard.FaceUp();
+                GameObject thisCard = Instantiate(MutationCardStore[2], Vector3.zero, Quaternion.identity, GameObject.FindGameObjectWithTag("MutationCardStore").transform);
+                MutationCardStore.Remove(MutationCardStore[2]);
+                MutationCardStore.Insert(2, thisCard);
+            }
         }
     }
 

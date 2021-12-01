@@ -9,6 +9,9 @@ TagManager:
   - Player1Hand
   - GameManager
   - MutationCardStore
+  - MonsterCard
+  - MutationCard
+  - ActionBoard
   layers:
   - Default
   - TransparentFX
