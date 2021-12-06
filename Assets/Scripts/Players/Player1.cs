@@ -105,7 +105,6 @@ public class Player1 : MonoBehaviour
             {
                 MonsterCard monsterCard = Player1MonsterCards[j].GetComponent<MonsterCard>();
                 monsterCard.currentAttack++;
-                cardsAttacking++;
                 j++;
                 attacksAvailable--;
                 if (j >= Player1MonsterCards.Count)
@@ -125,6 +124,7 @@ public class Player1 : MonoBehaviour
                 monsterCard.canAttack = true;
                 y++;
                 attacksAvailable--;
+                cardsAttacking++;
             }
         }
     }

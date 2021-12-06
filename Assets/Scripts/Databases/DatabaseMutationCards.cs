@@ -80,7 +80,7 @@ public class DatabaseMutationCards : MonoBehaviour
 
                 mutationCard = MutationCardStore[2].GetComponent<MutationCard>();
                 mutationCard._cardPosition = MutationCardPosition.inStore;
-                //  mutationCard.FaceUp();
+                mutationCard.Show();
                 GameObject thisCard = Instantiate(MutationCardStore[2], Vector3.zero, Quaternion.identity, GameObject.FindGameObjectWithTag("MutationCardStore").transform);
                 MutationCardStore.Remove(MutationCardStore[2]);
                 MutationCardStore.Insert(2, thisCard);

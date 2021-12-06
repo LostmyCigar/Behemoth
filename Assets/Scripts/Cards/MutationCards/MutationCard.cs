@@ -79,7 +79,7 @@ public class MutationCard : MonoBehaviour
     private void PlaceOn(GameObject card)
     {
         MonsterCard monsterCard = card.GetComponent<MonsterCard>();
-        Debug.Log("Tried placing on " + card.name + " in " + monsterCard._cardPosition);
+
 
         int i = databaseMutationCards.MutationCardStore.IndexOf(gameObject);
         monsterCard.MutationCards.Add(gameObject);
@@ -97,5 +97,12 @@ public class MutationCard : MonoBehaviour
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
+    }
+
+    public void Show()
+    {
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
     }
 }

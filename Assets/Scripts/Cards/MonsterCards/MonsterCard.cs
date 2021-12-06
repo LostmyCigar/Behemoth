@@ -29,22 +29,33 @@ public class MonsterCard : MonoBehaviour
     [SerializeField] private string cardName;
     [SerializeField] private string cardDescription;
     [SerializeField] private string cardEffect;
-    [SerializeField] private int startHp;
+    [SerializeField] private float startHp;
     [SerializeField] private int startAttack;
     [SerializeField] private int startMutationSpace;
-    public StatusEffects _statusEffectApplies;
-    public StatusEffects _statusEffectAffected;
+
+    [Header("Status Effects")]
+    public StatusEffectStates _statusEffectApplies;
+    public int appliesTimer;
+    public StatusEffectStates _statusEffectAffected;
+    public int affectedTimer;
+
+    [Header("Mutation Cards Active")]
     public List<GameObject> MutationCards = new List<GameObject>();
 
-    public int currentHp;
+    [Header("Current Stats")]
+    public float currentHp;
     public int currentAttack;
     public int originalAttack;
     public int currentMutationSpace;
 
     [Header("Reviving")]
     public bool willRevive;
-    public int hpAfterRevive;
+    public float hpAfterRevive;
     public int attackAfterRevive;
+
+    [Header("Damage reduction")]
+    public int flatDamageReduction;
+    public float percentageDamageReduction;
 
     [Header("Card general info")]
     public bool showCardBack;
@@ -86,7 +97,7 @@ public class MonsterCard : MonoBehaviour
     public Player1 player1;
     public Player2 player2;
     DraggableAttack draggable;
-
+    public MutationCardEffect mutationCardEffect;
     void Start()
     {
         if (gameObject.tag == "Untagged")
@@ -99,8 +110,8 @@ public class MonsterCard : MonoBehaviour
         currentAttack = startAttack;
         originalAttack = currentAttack;
         currentMutationSpace = startMutationSpace;
-        _statusEffectAffected = StatusEffects.None;
-        _statusEffectApplies = StatusEffects.None;
+        _statusEffectAffected = StatusEffectStates.None;
+        _statusEffectApplies = StatusEffectStates.None;
 
         nameText.text = cardName;
         descriptionText.text = cardDescription;
@@ -154,26 +165,53 @@ public class MonsterCard : MonoBehaviour
     {
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
 
-        enemyCard.TakeDamage(currentAttack, _statusEffectApplies);
+        enemyCard.TakeDamage(currentAttack, _statusEffectApplies, appliesTimer);
         canAttack = false;
         _cardAction = CardAction.Neutral;
         playerManager.CardDoneAttacking();
         
     }
 
-    public void TakeDamage(int damage, StatusEffects statusEffects)
+    public void TakeDamage(float damage, StatusEffectStates statusEffects, int statusEffectTimer)
     {
-        _statusEffectAffected = statusEffects;
+
         currentHp -= DamageAfterModifiers(damage);
+        _statusEffectAffected = statusEffects;
+        affectedTimer += statusEffectTimer;
         if (currentHp <= 0)
         {
             Die();
         }
     }
 
-    public int DamageAfterModifiers(int damage)
+    public void ApplyStatusEffectsEndofTurn()
     {
-        return damage;
+        if (affectedTimer > 0)
+        {
+            if (_statusEffectAffected == StatusEffectStates.Poisioned)
+            {
+                currentHp -= affectedTimer;
+            }
+            affectedTimer--;
+        }
+
+        if (affectedTimer <= 0)
+        {
+            _statusEffectAffected = StatusEffectStates.None;
+        }
+    }
+
+    public float DamageAfterModifiers(float damage)
+    {
+        float damageAfterModifiers = damage;
+        damageAfterModifiers -= flatDamageReduction;
+        damageAfterModifiers *= (1 - percentageDamageReduction);
+        if (_statusEffectAffected == StatusEffectStates.Weak)
+        {
+            damageAfterModifiers += 2;
+        }
+
+        return damageAfterModifiers;
     }
 
     private void CardDisplay()
@@ -201,6 +239,8 @@ public class MonsterCard : MonoBehaviour
             mutationCard.transform.SetParent(transform);
             mutationCard.Hide();
 
+            mutationCardEffect = mutationCard.GetComponent<MutationCardEffect>();
+            mutationCardEffect.CheckState();
         }
 
         if (MutationCards.Count >= 1)

@@ -28,10 +28,10 @@ public class GodzillaFan : MonoBehaviour
     void Update()
     {
 
-        checkAbility();
+        CheckAbility();
     }
 
-    private void checkAbility()
+    private void CheckAbility()
     {
         if (playerManager.MonsterCardInCurrentPlayerHand(this.gameObject))
         {

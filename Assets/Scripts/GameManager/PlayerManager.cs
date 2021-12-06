@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,6 +63,14 @@ public class PlayerManager : MonoBehaviour
     private void SetState(PlayerTurnState state)
     {
         _playerTurnState = state;
+    }
+
+    public List<GameObject> GetAllActiveMonsterCards()
+    {
+         List<GameObject> AllMonsterCards = new List<GameObject>();
+         AllMonsterCards = GameObject.FindGameObjectsWithTag("MonsterCard").ToList();
+
+        return AllMonsterCards;
     }
 
     private void UppdateTurnText()
@@ -338,7 +347,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
+    public void UppdateMonsterCardsEndofTurn()
+    {
+        List<GameObject> AllMonsterCards = new List<GameObject>();
+        AllMonsterCards = GetAllActiveMonsterCards();
+        for (int i = 0; i < AllMonsterCards.Count; i++)
+        {
+            MonsterCard monsterCard = AllMonsterCards[i].GetComponent<MonsterCard>();
+            monsterCard.ApplyStatusEffectsEndofTurn();
+        }
+    }
 
     private void EndTurnButtonOnState()
     {
@@ -364,7 +382,7 @@ public class PlayerManager : MonoBehaviour
             {
                 SetCurrentPlayerAction(PlayerAction.ChooseAction);
                 _playerTurnState = PlayerTurnState.Player2;
-
+                UppdateMonsterCardsEndofTurn();
             }
         }
         else if (_playerTurnState == PlayerTurnState.Player2 || _playerTurnState == PlayerTurnState.StartPlayer2)
@@ -378,7 +396,7 @@ public class PlayerManager : MonoBehaviour
             {
                 SetCurrentPlayerAction(PlayerAction.ChooseAction);
                 _playerTurnState = PlayerTurnState.Player1;
-
+                UppdateMonsterCardsEndofTurn();
             }
         }
     }
