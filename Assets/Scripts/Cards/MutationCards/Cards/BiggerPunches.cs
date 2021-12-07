@@ -37,6 +37,7 @@ public class BiggerPunches : MutationCardEffect
         {
             MonsterCard monsterCard = GetComponentInParent<MonsterCard>();
             monsterCard.currentAttack -= 3;
+            alreadyActivated = false;
         }
     }
 }

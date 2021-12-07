@@ -53,9 +53,18 @@ public class MonsterCard : MonoBehaviour
     public float hpAfterRevive;
     public int attackAfterRevive;
 
+    [Header("Healing")]
+    public bool cantBeHealed;
+    public bool canHealAllies;
+    public int healOnAttack;
+
     [Header("Damage reduction")]
     public int flatDamageReduction;
     public float percentageDamageReduction;
+
+    [Header("Double attacking")]
+    public int howManyAttacks;
+    private int attacksLeft;
 
     [Header("Card general info")]
     public bool showCardBack;
@@ -110,6 +119,7 @@ public class MonsterCard : MonoBehaviour
         currentAttack = startAttack;
         originalAttack = currentAttack;
         currentMutationSpace = startMutationSpace;
+        attacksLeft = howManyAttacks;
         _statusEffectAffected = StatusEffectStates.None;
         _statusEffectApplies = StatusEffectStates.None;
 
@@ -155,21 +165,40 @@ public class MonsterCard : MonoBehaviour
 
     public void TryAttacking(GameObject enemy)
     {
+        Debug.Log("Tried Targeting");
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
         if (playerManager.MonsterCardInOtherHand(enemy))
         {
+            Debug.Log("Attacked");
             Attack(enemy);
+        }
+        if (playerManager.MonsterCardInCurrentPlayerHand(enemy) && canHealAllies)
+        {
+            if (enemyCard.cantBeHealed == false)
+            {
+                HealAlly(enemy);
+                Debug.Log("Healed");
+            }
         }
     }
     public void Attack(GameObject enemy)
     {
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
-
+        if (!cantBeHealed)
+        {
+            currentHp += healOnAttack;
+        }
         enemyCard.TakeDamage(currentAttack, _statusEffectApplies, appliesTimer);
-        canAttack = false;
-        _cardAction = CardAction.Neutral;
-        playerManager.CardDoneAttacking();
-        
+        if (attacksLeft <= 0)
+        {
+            canAttack = false;
+            _cardAction = CardAction.Neutral;
+            playerManager.CardDoneAttacking();
+        }
+        else if (attacksLeft > 0)
+        {
+            attacksLeft--;
+        }
     }
 
     public void TakeDamage(float damage, StatusEffectStates statusEffects, int statusEffectTimer)
@@ -184,13 +213,26 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
+    public void HealAlly(GameObject enemy)
+    {
+        MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
+        enemyCard.currentHp += currentAttack / 2;
+        Mathf.Ceil(enemyCard.currentHp);
+        canAttack = false;
+        _cardAction = CardAction.Neutral;
+        playerManager.CardDoneAttacking();
+
+    }
     public void ApplyStatusEffectsEndofTurn()
     {
+        cantBeHealed = false;
         if (affectedTimer > 0)
         {
             if (_statusEffectAffected == StatusEffectStates.Poisioned)
             {
                 currentHp -= affectedTimer;
+                cantBeHealed = true;
+                Debug.Log("poison applied on " + name + " " + affectedTimer + " damage done");
             }
             affectedTimer--;
         }
@@ -214,6 +256,11 @@ public class MonsterCard : MonoBehaviour
         return damageAfterModifiers;
     }
 
+    public void UppdateCardEndOfTurn()
+    {
+        attacksLeft = howManyAttacks;
+        ApplyStatusEffectsEndofTurn();
+    }
     private void CardDisplay()
     {
         if (attackText.text != currentAttack.ToString())

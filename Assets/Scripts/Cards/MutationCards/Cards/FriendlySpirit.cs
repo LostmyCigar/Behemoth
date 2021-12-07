@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class GiantArmorPlate : MutationCardEffect
-{ 
+public class FriendlySpirit : MutationCardEffect
+{
     MutationCard thisCard;
     public bool alreadyActivated;
-void Start()
-{
-    thisCard = gameObject.GetComponent<MutationCard>();
-}
+    void Start()
+    {
+        thisCard = gameObject.GetComponent<MutationCard>();
+    }
 
     public override void CheckState()
     {
@@ -26,7 +26,7 @@ void Start()
         if (alreadyActivated == false)
         {
             MonsterCard monsterCard = GetComponentInParent<MonsterCard>();
-            monsterCard.flatDamageReduction += 2;
+            monsterCard.canHealAllies = true;
         }
     }
 
@@ -35,7 +35,8 @@ void Start()
         if (alreadyActivated == true)
         {
             MonsterCard monsterCard = GetComponentInParent<MonsterCard>();
-            monsterCard.flatDamageReduction -= 2;
+            monsterCard.canHealAllies = false;
+            alreadyActivated = false;
         }
     }
 }

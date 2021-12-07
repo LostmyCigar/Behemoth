@@ -45,6 +45,7 @@ public class SoftenThemUp : MutationCardEffect
             MonsterCard monsterCard = GetComponentInParent<MonsterCard>();
             monsterCard._statusEffectApplies = StatusEffectStates.None;
             monsterCard.appliesTimer -= 1;
+            alreadyActivated = false;
         }
     }
 }

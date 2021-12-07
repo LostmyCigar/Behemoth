@@ -354,7 +354,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < AllMonsterCards.Count; i++)
         {
             MonsterCard monsterCard = AllMonsterCards[i].GetComponent<MonsterCard>();
-            monsterCard.ApplyStatusEffectsEndofTurn();
+            monsterCard.UppdateCardEndOfTurn();
         }
     }
 
