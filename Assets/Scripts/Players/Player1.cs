@@ -27,18 +27,20 @@ public class Player1 : MonoBehaviour
     [Header("State")]
     public PlayerAction _playerAction;
 
-    [Header("Add in inspector")]
+    [Header("Added on start")]
     public PlayerManager playerManager;
     public DatabaseMonsterCards databaseMonsterCards;
-
+    public DatabaseWeaponCards databaseWeaponCards;
 
     [Header("UI")]
     public Image player1Hand;
+    public Image player1Weapons;
     public Text recruitmentPointText;
     public Text mutationPointText;
 
     [Header("Cards")]
     public List<GameObject> Player1MonsterCards = new List<GameObject>();
+    public List<GameObject> Player1WeaponCards = new List<GameObject>();
 
 
 
@@ -49,6 +51,7 @@ public class Player1 : MonoBehaviour
     void Start()
     {
         playerManager = GetComponent<PlayerManager>();
+        databaseWeaponCards = GetComponent<DatabaseWeaponCards>();
         databaseMonsterCards = GetComponent<DatabaseMonsterCards>();
     }
 
@@ -56,7 +59,8 @@ public class Player1 : MonoBehaviour
     {
         UIDisplay();
         PlayerActions();
-        HandleCards();
+        HandleMonsterCards();
+        HandleWeaponCards();
     }
 
     private void UIDisplay()
@@ -157,7 +161,22 @@ public class Player1 : MonoBehaviour
         }
     }
 
-    private void HandleCards()
+    public void TryBuyWeaponCard(GameObject card)
+    {
+        WeaponCard weaponCard = card.GetComponent<WeaponCard>();
+        if (weaponCard.cardCost <= recruitmentPoints && currentCardsOnHand >= 4)
+        {
+            int i = databaseWeaponCards.WeaponCardStore.IndexOf(card);
+            Player1WeaponCards.Add(databaseWeaponCards.WeaponCardStore[i]);
+
+            databaseWeaponCards.WeaponCardStore.Remove(databaseWeaponCards.WeaponCardStore[i]);
+            databaseWeaponCards.NewCardToStore();
+
+            recruitmentPoints = recruitmentPoints - weaponCard.cardCost;
+        }
+    }
+
+    private void HandleMonsterCards()
     {
         for (int i = 0; i < Player1MonsterCards.Count; i++)
         {
@@ -169,6 +188,16 @@ public class Player1 : MonoBehaviour
             {
                 monsterCard._cardAction = CardAction.isAttacking;
             }
+        }
+    }
+
+    private void HandleWeaponCards()
+    {
+        for (int i = 0; i < Player1WeaponCards.Count; i++)
+        {
+            Player1WeaponCards[i].transform.SetParent(player1Weapons.transform);
+            WeaponCard weaponCard = Player1WeaponCards[i].GetComponent<WeaponCard>();
+            weaponCard._cardPosition = CardPosition.inHandPlayer1;
         }
     }
 }

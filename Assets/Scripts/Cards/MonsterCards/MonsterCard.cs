@@ -165,11 +165,9 @@ public class MonsterCard : MonoBehaviour
 
     public void TryAttacking(GameObject enemy)
     {
-        Debug.Log("Tried Targeting");
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
         if (playerManager.MonsterCardInOtherHand(enemy))
         {
-            Debug.Log("Attacked");
             Attack(enemy);
         }
         if (playerManager.MonsterCardInCurrentPlayerHand(enemy) && canHealAllies)
@@ -177,7 +175,6 @@ public class MonsterCard : MonoBehaviour
             if (enemyCard.cantBeHealed == false)
             {
                 HealAlly(enemy);
-                Debug.Log("Healed");
             }
         }
     }
@@ -232,7 +229,6 @@ public class MonsterCard : MonoBehaviour
             {
                 currentHp -= affectedTimer;
                 cantBeHealed = true;
-                Debug.Log("poison applied on " + name + " " + affectedTimer + " damage done");
             }
             affectedTimer--;
         }
@@ -403,17 +399,5 @@ public class MonsterCard : MonoBehaviour
                 player2.TryBuyMonsterCard(this.gameObject);
             }
         } 
-        else if (_cardPosition == CardPosition.inHandPlayer1)
-        {
-            UtilityClass utility = gameManager.GetComponent<UtilityClass>();
-            utility.SelectMonsterCard(this.gameObject);
-
-        }
-        else if (_cardPosition == CardPosition.inHandPlayer2)
-        {
-            UtilityClass utility = gameManager.GetComponent<UtilityClass>();
-            utility.SelectMonsterCard(this.gameObject);
-        }
-
     }
 }

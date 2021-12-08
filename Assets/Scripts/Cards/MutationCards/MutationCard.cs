@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System;
 
 public enum MutationCardPosition
 {
     inDeck,
     inStore,
     onMonsterCard,
+    inGraveyard
 }
 public class MutationCard : MonoBehaviour
 {
@@ -74,6 +74,12 @@ public class MutationCard : MonoBehaviour
                 PlaceOn(card);
             }
         }
+    }
+
+    public void UppdateForGraveyard()
+    {
+        cardCost = 2;
+        _cardPosition = MutationCardPosition.inGraveyard;
     }
 
     private void PlaceOn(GameObject card)

@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class DatabaseMonsterCards : MonoBehaviour
 {
- 
     public List<GameObject> MonsterCards = new List<GameObject>();
     public List<GameObject> MonsterCardDeck = new List<GameObject>();
     public List<GameObject> MonsterCardStore = new List<GameObject>();
     public GameObject tempGO;
     public MonsterCard monsterCard;
-
-
-    private void Start()
+    void Start()
     {
         CreateMonsterDeck();
         ShuffleMonsterDeck();

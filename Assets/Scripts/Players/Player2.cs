@@ -21,18 +21,20 @@ public class Player2 : MonoBehaviour
     [Header("State")]
     public PlayerAction _playerAction;
 
-    [Header("Add in inspector")]
+    [Header("Added on start")]
     public PlayerManager playerManager;
     public DatabaseMonsterCards databaseMonsterCards;
-
+    public DatabaseWeaponCards databaseWeaponCards;
 
     [Header("UI")]
     public Image player2Hand;
+    public Image player2Weapons;
     public Text recruitmentPointText;
     public Text mutationPointText;
 
     [Header("Cards")]
     public List<GameObject> Player2MonsterCards = new List<GameObject>();
+    public List<GameObject> Player2WeaponCards = new List<GameObject>();
 
 
 
@@ -43,6 +45,7 @@ public class Player2 : MonoBehaviour
     void Start()
     {
         playerManager = GetComponent<PlayerManager>();
+        databaseWeaponCards = GetComponent<DatabaseWeaponCards>();
         databaseMonsterCards = GetComponent<DatabaseMonsterCards>();
     }
 
@@ -50,7 +53,8 @@ public class Player2 : MonoBehaviour
     {
         UIDisplay();
         PlayerActions();
-        HandleCards();
+        HandleMonsterCards();
+        HandleWeaponCards();
     }
 
     private void UIDisplay()
@@ -151,7 +155,21 @@ public class Player2 : MonoBehaviour
             recruitmentPoints = recruitmentPoints - monsterCard.cost;
         }
     }
-    private void HandleCards()
+    public void TryBuyWeaponCard(GameObject card)
+    {
+        WeaponCard weaponCard = card.GetComponent<WeaponCard>();
+        if (weaponCard.cardCost <= recruitmentPoints && currentCardsOnHand >= 4)
+        {
+            int i = databaseWeaponCards.WeaponCardStore.IndexOf(card);
+            Player2WeaponCards.Add(databaseWeaponCards.WeaponCardStore[i]);
+
+            databaseWeaponCards.WeaponCardStore.Remove(databaseWeaponCards.WeaponCardStore[i]);
+            databaseWeaponCards.NewCardToStore();
+
+            recruitmentPoints = recruitmentPoints - weaponCard.cardCost;
+        }
+    }
+    private void HandleMonsterCards()
     {
         for (int i = 0; i < Player2MonsterCards.Count; i++)
         {
@@ -159,11 +177,19 @@ public class Player2 : MonoBehaviour
             MonsterCard monsterCard = Player2MonsterCards[i].GetComponent<MonsterCard>();
             monsterCard._cardPosition = CardPosition.inHandPlayer2;
 
-            if (_playerAction == PlayerAction.AttackPhase)
+            if (monsterCard.canAttack)
             {
                 monsterCard._cardAction = CardAction.isAttacking;
             }
         }
     }
-
+    private void HandleWeaponCards()
+    {
+        for (int i = 0; i < Player2WeaponCards.Count; i++)
+        {
+            Player2WeaponCards[i].transform.SetParent(player2Weapons.transform);
+            WeaponCard weaponCard = Player2WeaponCards[i].GetComponent<WeaponCard>();
+            weaponCard._cardPosition = CardPosition.inHandPlayer2;
+        }
+    }
 }

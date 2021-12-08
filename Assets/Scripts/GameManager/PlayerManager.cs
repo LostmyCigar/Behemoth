@@ -73,6 +73,14 @@ public class PlayerManager : MonoBehaviour
         return AllMonsterCards;
     }
 
+    public List<GameObject> GetAllActiveWeaponCards()
+    {
+        List<GameObject> AllWeaponCards = new List<GameObject>();
+        AllWeaponCards = GameObject.FindGameObjectsWithTag("WeaponCard").ToList();
+
+        return AllWeaponCards;
+    }
+
     private void UppdateTurnText()
     {
         if (_playerTurnState == PlayerTurnState.StartPlayer1)
@@ -326,6 +334,27 @@ public class PlayerManager : MonoBehaviour
             else return false;
         }
     }
+    public bool WeaponCardInCurrentPlayerHand(GameObject card)
+    {
+        WeaponCard weaponCard = card.GetComponent<WeaponCard>();
+        if (_playerTurnState == PlayerTurnState.Player1 || _playerTurnState == PlayerTurnState.StartPlayer1)
+        {
+            if (weaponCard._cardPosition == CardPosition.inHandPlayer1)
+            {
+                return true;
+            }
+            else return false;
+        }
+        else
+        {
+            if (weaponCard._cardPosition == CardPosition.inHandPlayer2)
+            {
+                return true;
+            }
+            else return false;
+        }
+    }
+
     public void MovePlayerToNextPhase()
     {
         PlayerAction playerAction = GetCurrentPlayerAction();
@@ -358,6 +387,25 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void UppdateWeaponCardsEndofTurn()
+    {
+        List<GameObject> AllWeaponCards = new List<GameObject>();
+        AllWeaponCards = GetAllActiveWeaponCards();
+        for (int i = 0; i < AllWeaponCards.Count; i++)
+        {
+            WeaponCard weaponCard = AllWeaponCards[i].GetComponent<WeaponCard>();
+            if (weaponCard._cardPosition == CardPosition.inHandPlayer1)
+            {
+                weaponCard.UppdateCardEndOfTurn();
+                Debug.Log("card uppdated");
+            }
+            if (weaponCard._cardPosition == CardPosition.inHandPlayer2)
+            {
+                weaponCard.UppdateCardEndOfTurn();
+            }
+        }
+    }
+
     private void EndTurnButtonOnState()
     {
         if (GetCurrentPlayerAction() == PlayerAction.BuyPhase)
@@ -383,6 +431,7 @@ public class PlayerManager : MonoBehaviour
                 SetCurrentPlayerAction(PlayerAction.ChooseAction);
                 _playerTurnState = PlayerTurnState.Player2;
                 UppdateMonsterCardsEndofTurn();
+                UppdateWeaponCardsEndofTurn();
             }
         }
         else if (_playerTurnState == PlayerTurnState.Player2 || _playerTurnState == PlayerTurnState.StartPlayer2)
@@ -397,6 +446,7 @@ public class PlayerManager : MonoBehaviour
                 SetCurrentPlayerAction(PlayerAction.ChooseAction);
                 _playerTurnState = PlayerTurnState.Player1;
                 UppdateMonsterCardsEndofTurn();
+                UppdateWeaponCardsEndofTurn();
             }
         }
     }
