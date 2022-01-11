@@ -2078,7 +2078,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2671257524981508710}
-  - component: {fileID: 9095254325455226648}
   - component: {fileID: 8931039604464886456}
   - component: {fileID: 1432331881997192438}
   - component: {fileID: 8746737108555005218}
@@ -2114,65 +2113,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9095254325455226648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7114466887010876027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7f3735c4f225b141bac2f4923254f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardId: 6
-  cardName: Ceasar
-  cardDescription: Ceasar is quite a spoiled little guy. If he doesn't like something
-    he just throws it away
-  cardEffect: 'This behemoth can discard its equipped mutation cards to receive +2
-    attack and heal Hp equal to the cost of the card. Discarded cards are placed
-    last in the mutation card-deck. '
-  startHp: 40
-  startAttack: 2
-  startMutationSpace: 3
-  _statusEffectApplies: 0
-  _statusEffectAffected: 0
-  MutationCards: []
-  currentHp: 0
-  currentAttack: 0
-  originalAttack: 0
-  currentMutationSpace: 0
-  willRevive: 0
-  hpAfterRevive: 0
-  attackAfterRevive: 0
-  flatDamageReduction: 0
-  percentageDamageReduction: 0
-  showCardBack: 1
-  isSelected: 0
-  canAttack: 0
-  isBuyable: 0
-  cost: 0
-  _cardPosition: 0
-  _cardAction: 0
-  nameText: {fileID: 2671257523886721049}
-  descriptionText: {fileID: 2671257525267575923}
-  hpText: {fileID: 2671257524883700095}
-  attackText: {fileID: 2671257523806247800}
-  effectText: {fileID: 1627286374078852018}
-  cardBack: {fileID: 1627286373431133791}
-  MutationCard1: {fileID: 2343676268163150183}
-  MutationCard2: {fileID: 2517838595477307642}
-  MutationCard3: {fileID: 3106585112772279557}
-  Mutationcard1NameText: {fileID: 5624139615089354019}
-  Mutationcard2NameText: {fileID: 2895315277784339330}
-  Mutationcard3NameText: {fileID: 8628735780324889985}
-  gameManager: {fileID: 0}
-  playerManager: {fileID: 0}
-  databaseMonsterCards: {fileID: 0}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  mutationCardEffect: {fileID: 0}
 --- !u!114 &8931039604464886456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2185,6 +2125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8900079527931c5438b03bb16132d9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: 0, y: 0}
 --- !u!61 &1432331881997192438
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2267,7 +2208,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9095254325455226648}
+      - m_Target: {fileID: 5643052854106637251}
         m_TargetAssemblyTypeName: MonsterCard, Assembly-CSharp
         m_MethodName: ClickedOn
         m_Mode: 1
@@ -2291,10 +2232,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d9ebcd0f4609440ae54bd23264aa82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackForRemoving: 2
-  monsterCard: {fileID: 0}
+  cardId: 6
+  cardName: Ceasar
+  cardDescription: Ceasar is quite a spoiled little guy. If he doesn't like something
+    he just throws it away
+  cardEffect: 'This behemoth can discard its equipped mutation cards to receive +2
+    attack and heal Hp equal to the cost of the card. Discarded cards are placed
+    last in the mutation card-deck. '
+  startHp: 40
+  startAttack: 2
+  startMutationSpace: 3
+  _statusEffectApplies: 0
+  appliesTimer: 0
+  _statusEffectAffected: 0
+  affectedTimer: 0
+  MutationCards: []
+  currentHp: 0
+  currentAttack: 0
+  originalAttack: 0
+  currentMutationSpace: 0
+  willRevive: 0
+  hpAfterRevive: 0
+  attackAfterRevive: 0
+  cantBeHealed: 0
+  canHealAllies: 0
+  healOnAttack: 0
+  flatDamageReduction: 0
+  percentageDamageReduction: 0
+  howManyAttacks: 0
+  showCardBack: 0
+  isSelected: 0
+  canAttack: 0
+  isBuyable: 0
+  cost: 0
+  _cardPosition: 0
+  _cardAction: 0
+  nameText: {fileID: 2671257523886721049}
+  descriptionText: {fileID: 2671257525267575923}
+  hpText: {fileID: 2671257524883700095}
+  attackText: {fileID: 2671257523806247800}
+  effectText: {fileID: 1627286374078852018}
+  cardBack: {fileID: 1627286373431133791}
+  MutationCard1: {fileID: 2343676268163150183}
+  MutationCard2: {fileID: 2517838595477307642}
+  MutationCard3: {fileID: 3106585112772279557}
+  Mutationcard1NameText: {fileID: 5643052855321635477}
+  Mutationcard2NameText: {fileID: 2895315277784339330}
+  Mutationcard3NameText: {fileID: 8628735780324889985}
   gameManager: {fileID: 0}
   playerManager: {fileID: 0}
+  databaseMonsterCards: {fileID: 0}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
+  mutationCardEffect: {fileID: 0}
+  attackForRemoving: 2
 --- !u!1 &8127021070006171740
 GameObject:
   m_ObjectHideFlags: 0

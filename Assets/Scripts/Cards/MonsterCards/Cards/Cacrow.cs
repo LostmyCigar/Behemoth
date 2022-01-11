@@ -5,36 +5,63 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class Cacrow : MonoBehaviour
+public class Cacrow : MonsterCard
 {
-    public MonsterCard monsterCard;
-    public GameObject gameManager;
-    public PlayerManager playerManager;
+
     public int currentBonus;
 
-    void Start()
-    {
-        monsterCard = GetComponent<MonsterCard>();
-        gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        playerManager = gameManager.GetComponent<PlayerManager>();
-    }
 
-    void Update()
-    {
-        CheckAbility();
-    }
 
     private void CheckAbility()
     {
-        if (monsterCard.MutationCards.Count > currentBonus)
+        if (MutationCards.Count > currentBonus)
         {
             ability();
         }
     }
 
-    private void ability()
+    public override void UppdateMutationCards()
     {
-        monsterCard.currentAttack++;
+        for (int i = 0; i < MutationCards.Count; i++)
+        {
+            MutationCard mutationCard = MutationCards[i].GetComponent<MutationCard>();
+            mutationCard._cardPosition = MutationCardPosition.onMonsterCard;
+
+            mutationCard.transform.SetParent(transform);
+            mutationCard.Hide();
+
+            mutationCardEffect = mutationCard.GetComponent<MutationCardEffect>();
+            mutationCardEffect.CheckState();
+        }
+
+        if (MutationCards.Count >= 1)
+        {
+            MutationCard1.SetActive(true);
+            MutationCard mutation = MutationCards[0].GetComponent<MutationCard>();
+            Mutationcard1NameText.text = mutation.cardName;
+        }
+        else MutationCard1.SetActive(false);
+
+        if (MutationCards.Count >= 2)
+        {
+            MutationCard2.SetActive(true);
+            MutationCard mutation = MutationCards[1].GetComponent<MutationCard>();
+            Mutationcard2NameText.text = mutation.cardName;
+        }
+        else MutationCard2.SetActive(false);
+
+        if (MutationCards.Count >= 3)
+        {
+            MutationCard3.SetActive(true);
+            MutationCard mutation = MutationCards[2].GetComponent<MutationCard>();
+            Mutationcard3NameText.text = mutation.cardName;
+        }
+        else MutationCard3.SetActive(false);
+        CheckAbility();
+    }
+    public override void ability()
+    {
+        currentAttack++;
         currentBonus++;
     }
 }

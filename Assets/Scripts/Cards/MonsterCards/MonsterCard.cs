@@ -107,11 +107,11 @@ public class MonsterCard : MonoBehaviour
     public Player2 player2;
     DraggableAttack draggable;
     public MutationCardEffect mutationCardEffect;
-    void Start()
+    void Awake()
     {
         if (gameObject.tag == "Untagged")
         {
-            Debug.Log(gameObject.name);
+            Debug.Log(gameObject.name + " is untagged");
         }
 
         _cardAction = CardAction.Neutral;
@@ -149,7 +149,10 @@ public class MonsterCard : MonoBehaviour
         CanCardAttack();
     }
 
+    public virtual void ability()
+    {
 
+    }
     private void CanCardAttack()
     {
         if (canAttack)
@@ -163,7 +166,7 @@ public class MonsterCard : MonoBehaviour
     }
 
 
-    public void TryAttacking(GameObject enemy)
+    public virtual void TryAttacking(GameObject enemy)
     {
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
         if (playerManager.MonsterCardInOtherHand(enemy))
@@ -178,7 +181,7 @@ public class MonsterCard : MonoBehaviour
             }
         }
     }
-    public void Attack(GameObject enemy)
+    public virtual void Attack(GameObject enemy)
     {
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
         if (!cantBeHealed)
@@ -198,7 +201,7 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, StatusEffectStates statusEffects, int statusEffectTimer)
+    public virtual void TakeDamage(float damage, StatusEffectStates statusEffects, int statusEffectTimer)
     {
 
         currentHp -= DamageAfterModifiers(damage);
@@ -210,7 +213,7 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
-    public void HealAlly(GameObject enemy)
+    public virtual void HealAlly(GameObject enemy)
     {
         MonsterCard enemyCard = enemy.GetComponent<MonsterCard>();
         enemyCard.currentHp += currentAttack / 2;
@@ -220,7 +223,7 @@ public class MonsterCard : MonoBehaviour
         playerManager.CardDoneAttacking();
 
     }
-    public void ApplyStatusEffectsEndofTurn()
+    public virtual void ApplyStatusEffectsEndofTurn()
     {
         cantBeHealed = false;
         if (affectedTimer > 0)
@@ -239,7 +242,7 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
-    public float DamageAfterModifiers(float damage)
+    public virtual float DamageAfterModifiers(float damage)
     {
         float damageAfterModifiers = damage;
         damageAfterModifiers -= flatDamageReduction;
@@ -272,7 +275,7 @@ public class MonsterCard : MonoBehaviour
     }
 
 
-    public void UppdateMutationCards()
+    public virtual void UppdateMutationCards()
     {
         for (int i = 0; i < MutationCards.Count; i++)
         {
@@ -322,7 +325,7 @@ public class MonsterCard : MonoBehaviour
             cardBack.SetActive(false);
         }
     }
-    public void Die()
+    public virtual void Die()
     {
         if (willRevive)
         {
@@ -333,7 +336,7 @@ public class MonsterCard : MonoBehaviour
             playerManager.AddDeadCard(this);
         }
     }
-    public void Revive()
+    public virtual void Revive()
     {
         currentHp = hpAfterRevive;
         currentAttack = attackAfterRevive;
@@ -369,7 +372,7 @@ public class MonsterCard : MonoBehaviour
         }
     }
 
-
+  
     public void IsCardBuyable(CardPosition cardPosition, PlayerAction playerAction)
     {
         int cardsOnHand = playerManager.GetCurrentPlayerCardsOnHand();

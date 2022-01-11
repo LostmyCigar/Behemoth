@@ -163,7 +163,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8396643227613017975}
-  - component: {fileID: 3435188274750331401}
   - component: {fileID: 3054994313057386409}
   - component: {fileID: 4788525240355672551}
   - component: {fileID: 2951633574658924595}
@@ -199,63 +198,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3435188274750331401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3688239081592153962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7f3735c4f225b141bac2f4923254f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardId: 5
-  cardName: Cacrow
-  cardDescription: 'Ever since she got this big she hasn''t been able to find her
-    old "Shiny things" collection. Let''s all hope that she finds it before she starts
-    a new collection called "Bigger, shinier things". '
-  cardEffect: Gains +1 attack for every mutation card equipped on this behemoth.
-  startHp: 40
-  startAttack: 2
-  startMutationSpace: 3
-  _statusEffectApplies: 0
-  _statusEffectAffected: 0
-  MutationCards: []
-  currentHp: 0
-  currentAttack: 0
-  originalAttack: 0
-  currentMutationSpace: 0
-  willRevive: 0
-  hpAfterRevive: 0
-  attackAfterRevive: 0
-  flatDamageReduction: 0
-  percentageDamageReduction: 0
-  showCardBack: 0
-  isSelected: 0
-  canAttack: 0
-  isBuyable: 0
-  cost: 0
-  _cardPosition: 1
-  _cardAction: 0
-  nameText: {fileID: 8396643228716569864}
-  descriptionText: {fileID: 8396643227329177954}
-  hpText: {fileID: 8396643227717117038}
-  attackText: {fileID: 8396643228786558569}
-  effectText: {fileID: 5116546858025563811}
-  cardBack: {fileID: 5116546858671332174}
-  MutationCard1: {fileID: 8147716726942608502}
-  MutationCard2: {fileID: 8315264265434766827}
-  MutationCard3: {fileID: 8829349557436571668}
-  Mutationcard1NameText: {fileID: 2276601743545923634}
-  Mutationcard2NameText: {fileID: 8771554054767922835}
-  Mutationcard3NameText: {fileID: 2750438706970839184}
-  gameManager: {fileID: 0}
-  playerManager: {fileID: 0}
-  databaseMonsterCards: {fileID: 0}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
 --- !u!114 &3054994313057386409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8900079527931c5438b03bb16132d9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: 0, y: 0}
 --- !u!61 &4788525240355672551
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -350,7 +293,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3435188274750331401}
+      - m_Target: {fileID: 7467776069423181454}
         m_TargetAssemblyTypeName: MonsterCard, Assembly-CSharp
         m_MethodName: ClickedOn
         m_Mode: 1
@@ -374,9 +317,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebc77f8139365c47978200bc2732d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterCard: {fileID: 0}
+  cardId: 5
+  cardName: Cacrow
+  cardDescription: 'Ever since she got this big she hasn''t been able to find her
+    old "Shiny things" collection. Let''s all hope that she finds it before she starts
+    a new collection called "Bigger, shinier things". '
+  cardEffect: Gains +1 attack for every mutation card equipped on this behemoth.
+  startHp: 40
+  startAttack: 2
+  startMutationSpace: 3
+  _statusEffectApplies: 0
+  appliesTimer: 0
+  _statusEffectAffected: 0
+  affectedTimer: 0
+  MutationCards: []
+  currentHp: 0
+  currentAttack: 0
+  originalAttack: 0
+  currentMutationSpace: 0
+  willRevive: 0
+  hpAfterRevive: 0
+  attackAfterRevive: 0
+  cantBeHealed: 0
+  canHealAllies: 0
+  healOnAttack: 0
+  flatDamageReduction: 0
+  percentageDamageReduction: 0
+  howManyAttacks: 0
+  showCardBack: 0
+  isSelected: 0
+  canAttack: 0
+  isBuyable: 0
+  cost: 0
+  _cardPosition: 0
+  _cardAction: 0
+  nameText: {fileID: 8396643228716569864}
+  descriptionText: {fileID: 8396643227329177954}
+  hpText: {fileID: 8396643227717117038}
+  attackText: {fileID: 8396643228786558569}
+  effectText: {fileID: 5116546858025563811}
+  cardBack: {fileID: 5116546858671332174}
+  MutationCard1: {fileID: 8147716726942608502}
+  MutationCard2: {fileID: 8315264265434766827}
+  MutationCard3: {fileID: 8829349557436571668}
+  Mutationcard1NameText: {fileID: 2276601743545923634}
+  Mutationcard2NameText: {fileID: 8771554054767922835}
+  Mutationcard3NameText: {fileID: 2750438706970839184}
   gameManager: {fileID: 0}
   playerManager: {fileID: 0}
+  databaseMonsterCards: {fileID: 0}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
+  mutationCardEffect: {fileID: 0}
   currentBonus: 0
 --- !u!1 &5116546857679304640
 GameObject:

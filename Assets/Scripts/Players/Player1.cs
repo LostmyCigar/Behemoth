@@ -147,6 +147,7 @@ public class Player1 : MonoBehaviour
 
     public void TryBuyMonsterCard(GameObject card)
     {
+        Debug.Log("Tried to buy");
         MonsterCard monsterCard = card.GetComponent<MonsterCard>();
         if (monsterCard.isBuyable && Player1MonsterCards.Count < maximumCardsOnHand)
         {

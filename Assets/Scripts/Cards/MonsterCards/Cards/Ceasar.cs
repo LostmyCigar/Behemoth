@@ -5,43 +5,38 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class Ceasar : MonoBehaviour
+public class Ceasar : MonsterCard
 {
     public int attackForRemoving;
 
-    public MonsterCard monsterCard;
-    public GameObject gameManager;
-    public PlayerManager playerManager;
     private GameObject mutationCard;
     private MutationCard mutationCardScript;
-    private DatabaseMutationCards databaseMutationCards;
-    private MutationCardEffect mutationCardEffect;
+    //private DatabaseMutationCards databaseMutationCards;
+    private MutationCardEffect mutationCardEffectScript;
 
     void Start()
     {
-        monsterCard = GetComponent<MonsterCard>();
-        gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        playerManager = gameManager.GetComponent<PlayerManager>();
-        databaseMutationCards = gameManager.GetComponent<DatabaseMutationCards>();
+
+        //databaseMutationCards = gameManager.GetComponent<DatabaseMutationCards>();
     }
 
     public void RemoveCard1()
     {
         if (playerManager.MonsterCardInCurrentPlayerHand(gameObject))
         {
-            mutationCard = monsterCard.MutationCards[0];
+            mutationCard = MutationCards[0];
             mutationCardScript = mutationCard.GetComponentInChildren<MutationCard>();
-            mutationCardEffect = mutationCard.GetComponentInChildren<MutationCardEffect>();
-            mutationCardEffect.Deactivate();
+            mutationCardEffectScript = mutationCard.GetComponentInChildren<MutationCardEffect>();
+            mutationCardEffectScript.Deactivate();
 
 
-            monsterCard.MutationCards.Remove(monsterCard.MutationCards[0]);
-            monsterCard.currentAttack += attackForRemoving;
-            monsterCard.currentHp += mutationCardScript.cardCost;
-            monsterCard.currentMutationSpace++;
+            MutationCards.Remove(MutationCards[0]);
+            currentAttack += attackForRemoving;
+            currentHp += mutationCardScript.cardCost;
+            currentMutationSpace++;
 
 
-            monsterCard.UppdateMutationCards();
+            UppdateMutationCards();
             Destroy(mutationCard);
         }
 
@@ -52,20 +47,20 @@ public class Ceasar : MonoBehaviour
         if (playerManager.MonsterCardInCurrentPlayerHand(gameObject))
         {
 
-            mutationCard = monsterCard.MutationCards[1];
+            mutationCard = MutationCards[1];
             mutationCardScript = mutationCard.GetComponentInChildren<MutationCard>();
-            mutationCardEffect = mutationCard.GetComponentInChildren<MutationCardEffect>();
-            mutationCardEffect.Deactivate();
+            mutationCardEffectScript = mutationCard.GetComponentInChildren<MutationCardEffect>();
+            mutationCardEffectScript.Deactivate();
 
 
-            monsterCard.MutationCards.Remove(monsterCard.MutationCards[1]);
-            monsterCard.currentAttack += attackForRemoving;
-            monsterCard.currentHp += mutationCardScript.cardCost;
-            monsterCard.currentMutationSpace++;
+            MutationCards.Remove(MutationCards[1]);
+            currentAttack += attackForRemoving;
+            currentHp += mutationCardScript.cardCost;
+            currentMutationSpace++;
 
 
 
-            monsterCard.UppdateMutationCards();
+            UppdateMutationCards();
             Destroy(mutationCard);
         }
     }
@@ -74,19 +69,19 @@ public class Ceasar : MonoBehaviour
     {
         if (playerManager.MonsterCardInCurrentPlayerHand(gameObject))
         {
-            mutationCard = monsterCard.MutationCards[2];
+            mutationCard = MutationCards[2];
             mutationCardScript = mutationCard.GetComponentInChildren<MutationCard>();
-            mutationCardEffect = mutationCard.GetComponentInChildren<MutationCardEffect>();
-            mutationCardEffect.Deactivate();
+            mutationCardEffectScript = mutationCard.GetComponentInChildren<MutationCardEffect>();
+            mutationCardEffectScript.Deactivate();
 
 
-            monsterCard.MutationCards.Remove(monsterCard.MutationCards[2]);
-            monsterCard.currentAttack += attackForRemoving;
-            monsterCard.currentHp += mutationCardScript.cardCost;
-            monsterCard.currentMutationSpace++;
+            MutationCards.Remove(MutationCards[2]);
+            currentAttack += attackForRemoving;
+            currentHp += mutationCardScript.cardCost;
+            currentMutationSpace++;
 
 
-            monsterCard.UppdateMutationCards();
+            UppdateMutationCards();
             Destroy(mutationCard);
         }
     }
